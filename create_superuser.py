@@ -5,7 +5,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'uptime_monitor.settings')
 django.setup()
 
-from uptime_monitor.apps.core.models import User
+from django.contrib.auth.models import User
 
 if not User.objects.filter(username='admin').exists():
     User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
