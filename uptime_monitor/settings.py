@@ -59,7 +59,7 @@ WSGI_APPLICATION = 'uptime_monitor.wsgi.application'
 ASGI_APPLICATION = 'uptime_monitor.asgi.application'
 
 # Custom User Model
-AUTH_USER_MODEL = 'core.User'
+# AUTH_USER_MODEL = 'core.User'  # Disabled temporarily
 
 # Database
 import dj_database_url
