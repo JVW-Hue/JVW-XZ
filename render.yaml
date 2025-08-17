@@ -2,7 +2,7 @@ services:
   - type: web
     name: uptime-monitor
     env: python
-    buildCommand: "pip install -r requirements-prod.txt && python manage.py makemigrations core --noinput && python manage.py makemigrations monitoring --noinput && python manage.py makemigrations billing --noinput && python manage.py makemigrations alerts --noinput && python manage.py migrate --noinput && python create_superuser.py && python manage.py collectstatic --noinput"
+    buildCommand: "pip install -r requirements-prod.txt && python manage.py migrate auth --noinput && python manage.py migrate contenttypes --noinput && python manage.py migrate sessions --noinput && python manage.py migrate admin --noinput && python manage.py makemigrations --noinput && python manage.py migrate --noinput && python create_superuser.py && python manage.py collectstatic --noinput"
     startCommand: "gunicorn uptime_monitor.wsgi:application --bind 0.0.0.0:10000"
     envVars:
       - key: SECRET_KEY
