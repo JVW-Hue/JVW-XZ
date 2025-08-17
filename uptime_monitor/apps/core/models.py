@@ -1,0 +1,24 @@
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+class User(AbstractUser):
+    PLAN_CHOICES = [
+        ('free', 'Free'),
+        ('premium', 'Premium'),
+        ('pro', 'Pro'),
+    ]
+    
+    plan = models.CharField(max_length=10, choices=PLAN_CHOICES, default='free')
+    stripe_customer_id = models.CharField(max_length=100, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def get_monitor_limit(self):
+        limits = {'free': 1, 'premium': 5, 'pro': 999}
+        return limits.get(self.plan, 1)
+    
+    def can_use_sms(self):
+        return self.plan == 'pro'
+    
+    def can_use_status_page(self):
+        return self.plan == 'pro'

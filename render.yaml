@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: uptime-monitor
+    env: python
+    buildCommand: "pip install -r requirements-prod.txt && python manage.py collectstatic --noinput && python manage.py migrate"
+    startCommand: "gunicorn uptime_monitor.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: PAYPAL_CLIENT_ID
+        value: ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79
+
+  - type: redis
+    name: uptime-monitor-redis
+    ipAllowList: []
+
+databases:
+  - name: uptime-monitor-db
+    databaseName: uptime_monitor
+    user: uptime_monitor

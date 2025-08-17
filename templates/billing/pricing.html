@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Choose Your Plan</h1>
+        <p class="text-xl text-gray-600">Upgrade to unlock more monitoring power</p>
+        <div class="mt-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                Current Plan: {{ user.plan|title }}
+            </span>
+        </div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Premium Plan -->
+        <div class="bg-white rounded-xl shadow-lg p-8 border-2 {% if user.plan == 'premium' %}border-blue-500{% else %}border-gray-200{% endif %}">
+            {% if user.plan == 'premium' %}
+                <div class="text-center mb-4">
+                    <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Current Plan</span>
+                </div>
+            {% endif %}
+            <h3 class="text-2xl font-bold text-center mb-4">Premium</h3>
+            <div class="text-center mb-6">
+                <span class="text-4xl font-bold">$9</span>
+                <span class="text-gray-600">/month</span>
+            </div>
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Monitor up to 5 websites</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> 1-minute check intervals</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Email alerts</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Advanced dashboard</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Monthly uptime reports</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> 30-day data retention</li>
+            </ul>
+            {% if user.plan != 'premium' %}
+                <a href="{% url 'paypal_checkout' 'premium' %}" 
+                   class="w-full bg-yellow-500 text-white py-3 rounded-lg font-semibold text-center block hover:bg-yellow-600 transition">
+                    <i class="fab fa-paypal mr-2"></i> Pay with PayPal
+                </a>
+            {% else %}
+                <div class="w-full bg-gray-200 text-gray-600 py-3 rounded-lg font-semibold text-center">
+                    Current Plan
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Pro Plan -->
+        <div class="bg-white rounded-xl shadow-lg p-8 border-2 {% if user.plan == 'pro' %}border-purple-500{% else %}border-gray-200{% endif %} relative">
+            {% if user.plan != 'pro' %}
+                <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    Most Popular
+                </div>
+            {% else %}
+                <div class="text-center mb-4">
+                    <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Current Plan</span>
+                </div>
+            {% endif %}
+            <h3 class="text-2xl font-bold text-center mb-4">Pro</h3>
+            <div class="text-center mb-6">
+                <span class="text-4xl font-bold">$19</span>
+                <span class="text-gray-600">/month</span>
+            </div>
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Unlimited websites</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> 30-second check intervals</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Email + SMS alerts</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Public status pages</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Priority support</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> 1-year data retention</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i> Custom check locations</li>
+            </ul>
+            {% if user.plan != 'pro' %}
+                <a href="{% url 'paypal_checkout' 'pro' %}" 
+                   class="w-full bg-yellow-500 text-white py-3 rounded-lg font-semibold text-center block hover:bg-yellow-600 transition">
+                    <i class="fab fa-paypal mr-2"></i> Pay with PayPal
+                </a>
+            {% else %}
+                <div class="w-full bg-gray-200 text-gray-600 py-3 rounded-lg font-semibold text-center">
+                    Current Plan
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Features Comparison -->
+    <div class="mt-16">
+        <h2 class="text-2xl font-bold text-center text-gray-900 mb-8">Feature Comparison</h2>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Free</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Premium</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Pro</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Websites</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">1</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Check Interval</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">5 minutes</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">1 minute</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">30 seconds</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Email Alerts</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-check text-green-500"></i></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-check text-green-500"></i></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SMS Alerts</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-times text-red-500"></i></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-times text-red-500"></i></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Public Status Pages</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-times text-red-500"></i></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-times text-red-500"></i></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-white rounded-3xl shadow-2xl p-12 text-center border border-gray-100">
+        <div class="mb-8">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-crown text-white text-2xl"></i>
+            </div>
+            <h1 class="text-4xl font-black text-gradient mb-4">Complete Your {{ plan|title }} Subscription</h1>
+            <div class="text-3xl font-bold text-gray-900 mb-2">${{ price }}<span class="text-lg text-gray-600">/month</span></div>
+            <p class="text-gray-600">Secure payment powered by PayPal</p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-8">
+            <div id="paypal-button-container" class="max-w-sm mx-auto"></div>
+        </div>
+        
+        <div class="flex items-center justify-center space-x-4 text-sm text-gray-500">
+            <i class="fas fa-shield-alt text-green-500"></i>
+            <span>256-bit SSL encrypted</span>
+            <span>•</span>
+            <span>Cancel anytime</span>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79&currency=USD&disable-funding=credit,paylater&enable-funding=card"></script>
+<script>
+paypal.Buttons({
+    style: {
+        color: 'blue',
+        shape: 'pill',
+        label: 'pay',
+        height: 55,
+        layout: 'vertical',
+        tagline: false
+    },
+    createOrder: function(data, actions) {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: '{{ price }}',
+                    currency_code: 'USD'
+                },
+                description: '{{ plan|title }} Plan - Monthly Subscription'
+            }],
+            application_context: {
+                shipping_preference: 'NO_SHIPPING'
+            }
+        });
+    },
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+            fetch('{% url "paypal_success" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    plan: '{{ plan }}',
+                    orderID: data.orderID,
+                    payerID: data.payerID
+                })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = '{% url "billing_success" %}';
+                } else {
+                    alert('Payment processing failed. Please try again.');
+                }
+            });
+        });
+    },
+    onError: function(err) {
+        console.error('PayPal Error:', err);
+        alert('Payment failed. Please try again.');
+    },
+    onCancel: function(data) {
+        alert('Payment cancelled.');
+    }
+}).render('#paypal-button-container');
+</script>
+{% endblock %}
