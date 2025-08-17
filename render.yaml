@@ -2,13 +2,13 @@ services:
   - type: web
     name: uptime-monitor
     env: python
-    buildCommand: "pip install -r requirements-prod.txt && python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput"
+    buildCommand: "pip install -r requirements-prod.txt && python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && echo 'from uptime_monitor.apps.core.models import User; User.objects.create_superuser(\"admin\", \"admin@example.com\", \"admin123\")' | python manage.py shell || true"
     startCommand: "gunicorn uptime_monitor.wsgi:application --bind 0.0.0.0:10000"
     envVars:
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: False
+        value: True
       - key: PAYPAL_CLIENT_ID
         value: ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79
 
