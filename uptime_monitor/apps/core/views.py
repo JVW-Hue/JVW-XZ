@@ -13,17 +13,13 @@ def signup_view(request):
             messages.error(request, 'Passwords do not match')
             return render(request, 'registration/signup.html')
         
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists')
-            return render(request, 'registration/signup.html')
-        
         try:
             user = User.objects.create_user(username=username, password=password1)
             login(request, user)
             messages.success(request, 'Account created successfully!')
             return redirect('dashboard')
         except Exception as e:
-            messages.error(request, 'Error creating account')
+            messages.error(request, f'Error creating account: {str(e)}')
             return render(request, 'registration/signup.html')
     
     return render(request, 'registration/signup.html')
