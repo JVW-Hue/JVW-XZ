@@ -8,7 +8,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: True
+        value: False
       - key: PAYPAL_CLIENT_ID
         value: ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79
       - key: DATABASE_URL
