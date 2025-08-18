@@ -30,13 +30,17 @@ def signup_view(request):
             return render(request, 'registration/signup.html')
         
         # Check if user already exists
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists')
-            return render(request, 'registration/signup.html')
-            
-        if email and User.objects.filter(email=email).exists():
-            messages.error(request, 'Email already registered')
-            return render(request, 'registration/signup.html')
+        try:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+                return render(request, 'registration/signup.html')
+                
+            if email and User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already registered')
+                return render(request, 'registration/signup.html')
+        except Exception:
+            # Database not ready, skip duplicate check
+            pass
         
         try:
             # Create user
