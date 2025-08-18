@@ -1,13 +1,14 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.db import models
 
-class User(AbstractUser):
+class UserProfile(models.Model):
     PLAN_CHOICES = [
         ('free', 'Free'),
         ('premium', 'Premium'),
         ('pro', 'Pro'),
     ]
     
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     plan = models.CharField(max_length=10, choices=PLAN_CHOICES, default='free')
     stripe_customer_id = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)

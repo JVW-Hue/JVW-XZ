@@ -58,7 +58,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'uptime_monitor.wsgi.application'
 ASGI_APPLICATION = 'uptime_monitor.asgi.application'
 
-# Using Django's built-in User model for reliability
+# Using Django's built-in User model
 
 # Session settings
 SESSION_COOKIE_AGE = 86400  # 24 hours

@@ -1,13 +1,12 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import User
+from django.contrib.auth.models import User
+from .models import UserProfile
 
-@admin.register(User)
-class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'plan', 'created_at', 'is_active')
-    list_filter = ('plan', 'is_active', 'created_at')
-    search_fields = ('username', 'email')
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'plan', 'created_at')
+    list_filter = ('plan', 'created_at')
+    search_fields = ('user__username', 'user__email')
     
-    fieldsets = UserAdmin.fieldsets + (
-        ('Subscription', {'fields': ('plan', 'stripe_customer_id', 'phone_number')}),
-    )
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
