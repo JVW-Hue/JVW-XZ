@@ -65,7 +65,7 @@ def paypal_checkout(request, plan):
         'plan': plan,
         'plan_name': plan_names[plan],
         'price': prices[plan],
-        'paypal_client_id': getattr(settings, 'PAYPAL_CLIENT_ID', 'ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79')
+        'paypal_client_id': settings.PAYPAL_CLIENT_ID
     })
 
 @csrf_exempt
