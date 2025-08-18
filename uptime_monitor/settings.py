@@ -60,6 +60,16 @@ ASGI_APPLICATION = 'uptime_monitor.asgi.application'
 
 # Using Django's built-in User model for reliability
 
+# Session settings
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Login URLs
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/auth/login/'
+
 # Database
 import dj_database_url
 
