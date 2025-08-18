@@ -45,10 +45,31 @@ def home_view(request):
     </html>
     ''')
 
+def workflows_view(request):
+    return HttpResponse('''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Workflows - UptimeGuard</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-50">
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+                <h1 class="text-2xl font-bold text-gray-900 mb-4">Workflows</h1>
+                <p class="text-gray-600 mb-6">Automation workflows coming soon!</p>
+                <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Back to Home</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    ''')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
     path('auth/', include('core.urls')),
     path('dashboard/', include('monitoring.urls')),
     path('billing/', include('billing.urls')),
+    path('workflows/', workflows_view, name='workflows'),
 ]
