@@ -59,11 +59,13 @@ def paypal_checkout(request, plan):
         return redirect('pricing')
     
     prices = {'premium': '9.00', 'pro': '19.00'}
+    plan_names = {'premium': 'Premium Plan', 'pro': 'Pro Plan'}
     
     return render(request, 'billing/paypal_checkout.html', {
         'plan': plan,
+        'plan_name': plan_names[plan],
         'price': prices[plan],
-        'paypal_client_id': getattr(settings, 'PAYPAL_CLIENT_ID', 'demo')
+        'paypal_client_id': getattr(settings, 'PAYPAL_CLIENT_ID', 'ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79')
     })
 
 @csrf_exempt
@@ -72,14 +74,31 @@ def paypal_success(request):
     try:
         data = json.loads(request.body)
         plan = data.get('plan')
+        payment_id = data.get('paymentID')
+        payer_id = data.get('payerID')
         
         if plan in ['premium', 'pro']:
-            request.user.plan = plan
-            request.user.save()
+            # Update user plan (you can add a plan field to User model)
+            # For now, we'll use session to track the plan
+            request.session['user_plan'] = plan
+            request.session['payment_id'] = payment_id
             
-        return JsonResponse({'status': 'success'})
+        return JsonResponse({
+            'status': 'success',
+            'redirect_url': '/billing/paypal-success-page/'
+        })
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
+
+@login_required
+def paypal_success_page(request):
+    plan = request.session.get('user_plan', 'free')
+    payment_id = request.session.get('payment_id', '')
+    
+    return render(request, 'billing/paypal_success.html', {
+        'plan': plan,
+        'payment_id': payment_id
+    })
 
 @csrf_exempt
 @require_POST

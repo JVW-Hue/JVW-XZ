@@ -1,72 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="bg-white rounded-3xl shadow-2xl p-12 text-center border border-gray-100">
-        <div class="mb-8">
-            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-crown text-white text-2xl"></i>
-            </div>
-            <h1 class="text-4xl font-black text-gradient mb-4">Complete Your {{ plan|title }} Subscription</h1>
-            <div class="text-3xl font-bold text-gray-900 mb-2">${{ price }}<span class="text-lg text-gray-600">/month</span></div>
-            <p class="text-gray-600">Secure payment powered by PayPal</p>
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-900">{{ plan_name }}</h2>
+            <p class="text-3xl font-bold text-blue-600 mt-2">${{ price }}/month</p>
         </div>
         
-        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-8">
-            <div id="paypal-button-container" class="max-w-sm mx-auto"></div>
+        <div class="mb-6">
+            <h3 class="font-semibold text-gray-900 mb-3">What you get:</h3>
+            {% if plan == 'premium' %}
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li>✓ 5 websites</li>
+                <li>✓ 1-minute checks</li>
+                <li>✓ SMS + Email alerts</li>
+                <li>✓ Status pages</li>
+            </ul>
+            {% else %}
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li>✓ Unlimited websites</li>
+                <li>✓ 30-second checks</li>
+                <li>✓ All integrations</li>
+                <li>✓ Priority support</li>
+            </ul>
+            {% endif %}
         </div>
         
-        <div class="flex items-center justify-center space-x-4 text-sm text-gray-500">
-            <i class="fas fa-shield-alt text-green-500"></i>
-            <span>256-bit SSL encrypted</span>
-            <span>•</span>
-            <span>Cancel anytime</span>
+        <!-- PayPal Button -->
+        <div id="paypal-button-container"></div>
+        
+        <div class="mt-6 text-center">
+            <a href="{% url 'pricing' %}" class="text-sm text-gray-600 hover:text-gray-800">← Back to pricing</a>
         </div>
     </div>
 </div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79&currency=USD&disable-funding=credit,paylater&enable-funding=card"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&currency=USD"></script>
 <script>
 paypal.Buttons({
-    style: {
-        color: 'blue',
-        shape: 'pill',
-        label: 'pay',
-        height: 55,
-        layout: 'vertical',
-        tagline: false
-    },
     createOrder: function(data, actions) {
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: '{{ price }}',
-                    currency_code: 'USD'
+                    value: '{{ price }}'
                 },
-                description: '{{ plan|title }} Plan - Monthly Subscription'
-            }],
-            application_context: {
-                shipping_preference: 'NO_SHIPPING'
-            }
+                description: '{{ plan_name }} - Monthly Subscription'
+            }]
         });
     },
     onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
-            fetch('{% url "paypal_success" %}', {
+            // Send payment info to server
+            fetch('/billing/paypal-success/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
                 },
                 body: JSON.stringify({
                     plan: '{{ plan }}',
-                    orderID: data.orderID,
+                    paymentID: data.orderID,
                     payerID: data.payerID
                 })
-            }).then(response => response.json())
+            })
+            .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    window.location.href = '{% url "billing_success" %}';
+                    window.location.href = data.redirect_url;
                 } else {
                     alert('Payment processing failed. Please try again.');
                 }
@@ -74,11 +74,8 @@ paypal.Buttons({
         });
     },
     onError: function(err) {
-        console.error('PayPal Error:', err);
+        console.error('PayPal error:', err);
         alert('Payment failed. Please try again.');
-    },
-    onCancel: function(data) {
-        alert('Payment cancelled.');
     }
 }).render('#paypal-button-container');
 </script>
