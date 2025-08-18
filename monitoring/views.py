@@ -36,3 +36,14 @@ def add_website(request):
             messages.error(request, f'Error adding website: {str(e)}')
     
     return render(request, 'monitoring/add_website.html')
+
+@login_required
+def website_detail(request, website_id):
+    try:
+        website = Website.objects.get(id=website_id, user=request.user)
+        return render(request, 'monitoring/website_detail.html', {
+            'website': website
+        })
+    except Website.DoesNotExist:
+        messages.error(request, 'Website not found')
+        return redirect('dashboard')
