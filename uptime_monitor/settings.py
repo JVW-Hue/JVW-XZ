@@ -61,21 +61,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'uptime_monitor.wsgi.application'
 
-# Force PostgreSQL in production
-if config('DATABASE_URL', default=None):
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
-            conn_max_age=600
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# PostgreSQL Database
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='postgresql://localhost/uptime_monitor'),
+        conn_max_age=600
+    )
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
