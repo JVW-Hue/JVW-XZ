@@ -12,9 +12,9 @@ def signup_view(request):
         password1 = request.POST.get('password1', '')
         password2 = request.POST.get('password2', '')
         
-        # Validation
+        # Basic validation
         if not username or not password1 or not password2:
-            messages.error(request, 'All fields are required')
+            messages.error(request, 'Username and passwords are required')
             return render(request, 'registration/signup.html')
             
         if len(username) < 3:
@@ -29,20 +29,12 @@ def signup_view(request):
             messages.error(request, 'Passwords do not match')
             return render(request, 'registration/signup.html')
         
-        # Check if user already exists
         try:
+            # Check if user exists
             if User.objects.filter(username=username).exists():
-                messages.error(request, 'Username already exists')
+                messages.error(request, 'Username already taken')
                 return render(request, 'registration/signup.html')
-                
-            if email and User.objects.filter(email=email).exists():
-                messages.error(request, 'Email already registered')
-                return render(request, 'registration/signup.html')
-        except Exception:
-            # Database not ready, skip duplicate check
-            pass
-        
-        try:
+            
             # Create user
             user = User.objects.create_user(
                 username=username,
@@ -50,21 +42,14 @@ def signup_view(request):
                 password=password1
             )
             
-            # Auto login after signup
-            user = authenticate(username=username, password=password1)
-            if user:
-                login(request, user)
-                messages.success(request, 'Account created successfully! Welcome!')
-                return redirect('dashboard')
-            else:
-                messages.success(request, 'Account created! Please log in.')
-                return redirect('login')
-                
-        except IntegrityError:
-            messages.error(request, 'Username or email already exists')
-            return render(request, 'registration/signup.html')
+            # Login user immediately
+            login(request, user)
+            messages.success(request, f'Welcome {username}! Account created successfully.')
+            return redirect('dashboard')
+            
         except Exception as e:
-            messages.error(request, 'Error creating account. Please try again.')
+            # Show specific error for debugging
+            messages.error(request, f'Account creation failed: {str(e)}')
             return render(request, 'registration/signup.html')
     
     return render(request, 'registration/signup.html')
