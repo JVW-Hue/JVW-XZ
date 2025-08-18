@@ -1,3 +1,8 @@
+databases:
+  - name: uptime-monitor-db
+    databaseName: uptime_monitor
+    user: uptime_monitor
+
 services:
   - type: web
     name: uptime-monitor
@@ -21,8 +26,3 @@ services:
   - type: redis
     name: uptime-monitor-redis
     ipAllowList: []
-
-databases:
-  - name: uptime-monitor-db
-    databaseName: uptime_monitor
-    user: uptime_monitor
