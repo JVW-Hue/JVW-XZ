@@ -58,8 +58,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'uptime_monitor.wsgi.application'
 ASGI_APPLICATION = 'uptime_monitor.asgi.application'
 
-# Custom User Model
-# AUTH_USER_MODEL = 'core.User'  # Disabled temporarily
+# Using Django's built-in User model for reliability
 
 # Database
 import dj_database_url
