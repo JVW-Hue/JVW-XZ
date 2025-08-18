@@ -23,14 +23,17 @@ def home_view(request):
                 <p class="text-gray-600 mb-6">Professional Website Monitoring SaaS</p>
                 
                 <div class="space-y-3">
-                    <a href="/auth/signup/" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 inline-block">
-                        Sign Up Free
+                    <a href="http://127.0.0.1:8000/auth/signup/" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 inline-block">
+                        📝 Sign Up Free
                     </a>
-                    <a href="/auth/login/" class="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-200 transition duration-200 inline-block">
-                        Sign In
+                    <a href="http://127.0.0.1:8000/auth/login/" class="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-200 transition duration-200 inline-block">
+                        🔐 Sign In
                     </a>
-                    <a href="/billing/pricing/" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-200 inline-block">
-                        View Pricing
+                    <a href="http://127.0.0.1:8000/billing/pricing/" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-200 inline-block">
+                        💰 View Pricing
+                    </a>
+                    <a href="http://127.0.0.1:8000/dashboard/" class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-purple-700 transition duration-200 inline-block">
+                        📊 Dashboard
                     </a>
                 </div>
                 
@@ -58,7 +61,11 @@ def workflows_view(request):
             <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
                 <h1 class="text-2xl font-bold text-gray-900 mb-4">Workflows</h1>
                 <p class="text-gray-600 mb-6">Automation workflows coming soon!</p>
-                <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">Back to Home</a>
+                <div class="space-y-3">
+                    <a href="http://127.0.0.1:8000/" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 inline-block">🏠 Go to Home</a>
+                    <a href="http://127.0.0.1:8000/auth/signup/" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-200 inline-block">📝 Sign Up</a>
+                    <a href="http://127.0.0.1:8000/dashboard/" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-200 inline-block">📊 Dashboard</a>
+                </div>
             </div>
         </div>
     </body>
