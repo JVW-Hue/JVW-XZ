@@ -61,10 +61,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'uptime_monitor.wsgi.application'
 
-# PostgreSQL Database
+# PostgreSQL Database - Use Render's database for both local and production
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='postgresql://localhost/uptime_monitor'),
+        default='postgresql://uptime_monitor_user:your_password@dpg-your_db_id-a.oregon-postgres.render.com/uptime_monitor_db',
         conn_max_age=600
     )
 }
