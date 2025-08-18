@@ -6,7 +6,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['*', 'jvw-xz.onrender.com', 'localhost', '127.0.0.1']
 
 # CSRF trusted origins for production
@@ -107,6 +107,15 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/auth/login/'
+
+# Security Settings
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False, cast=bool)
+SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=False, cast=bool)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
 
 # PayPal
 PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID', default='ARK6NTOx6BYynt7sXT2RXr5L1Wkus7MRwIVRXKdBq-ngBWxcg8q1IR-sRM8oui_wZUMdgAIjLtcpal79')
