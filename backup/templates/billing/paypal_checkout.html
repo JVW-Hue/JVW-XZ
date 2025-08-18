@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-900">{{ plan_name }}</h2>
+            <p class="text-3xl font-bold text-blue-600 mt-2">${{ price }}/month</p>
+        </div>
+        
+        <div class="mb-6">
+            <h3 class="font-semibold text-gray-900 mb-3">What you get:</h3>
+            {% if plan == 'premium' %}
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li>✓ 5 websites</li>
+                <li>✓ 1-minute checks</li>
+                <li>✓ SMS + Email alerts</li>
+                <li>✓ Status pages</li>
+            </ul>
+            {% else %}
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li>✓ Unlimited websites</li>
+                <li>✓ 30-second checks</li>
+                <li>✓ All integrations</li>
+                <li>✓ Priority support</li>
+            </ul>
+            {% endif %}
+        </div>
+        
+        <!-- PayPal Button -->
+        <div id="paypal-button-container"></div>
+        
+        <div class="mt-6 text-center">
+            <a href="{% url 'pricing' %}" class="text-sm text-gray-600 hover:text-gray-800">← Back to pricing</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id={{ paypal_client_id }}&currency=USD"></script>
+<script>
+paypal.Buttons({
+    createOrder: function(data, actions) {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: '{{ price }}'
+                },
+                description: '{{ plan_name }} - Monthly Subscription'
+            }]
+        });
+    },
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+            // Send payment info to server
+            fetch('/billing/paypal-success/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    plan: '{{ plan }}',
+                    paymentID: data.orderID,
+                    payerID: data.payerID
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert('Payment processing failed. Please try again.');
+                }
+            });
+        });
+    },
+    onError: function(err) {
+        console.error('PayPal error:', err);
+        alert('Payment failed. Please try again.');
+    }
+}).render('#paypal-button-container');
+</script>
+{% endblock %}
