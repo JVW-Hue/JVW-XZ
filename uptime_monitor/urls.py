@@ -1,13 +1,13 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import TemplateView
+from django.urls import path
+from django.http import HttpResponse
+
+def home_view(request):
+    return HttpResponse('<h1>UptimeGuard - Website Monitoring SaaS</h1><p>Professional monitoring service</p><a href="/dashboard/">Go to Dashboard</a>')
+
+def dashboard_view(request):
+    return HttpResponse('<h1>Dashboard</h1><p>Welcome to your monitoring dashboard</p><a href="/">Back to Home</a>')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='landing.html'), name='home'),
-    path('auth/', include('uptime_monitor.apps.core.urls')),
-    path('dashboard/', include('uptime_monitor.apps.monitoring.urls')),
-    path('api/', include('uptime_monitor.apps.monitoring.api_urls')),
-    path('billing/', include('uptime_monitor.apps.billing.urls')),
-    path('status/<str:slug>/', include('uptime_monitor.apps.monitoring.status_urls')),
+    path('', home_view, name='home'),
+    path('dashboard/', dashboard_view, name='dashboard'),
 ]
