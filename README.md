@@ -2,9 +2,9 @@
 
 A Django web application for real-time website uptime monitoring.
 
-## 🚀 Live App
+## 🚀 Local Development Only
 
-**Production URL:** https://jvw-xz.onrender.com
+**Local URL:** http://127.0.0.1:8001
 
 ## ✨ Features
 
@@ -18,10 +18,9 @@ A Django web application for real-time website uptime monitoring.
 ## 🛠️ Tech Stack
 
 - Django 4.2.7
-- PostgreSQL (Production)
-- SQLite (Local)
+- SQLite Database
 - TailwindCSS
-- Deployed on Render
+- Local Development
 
 ## 📦 Local Setup
 

@@ -1,0 +1,10 @@
+RENDER DEPLOYMENT DISABLED
+
+This app no longer deploys to Render.
+All Render configuration files have been removed.
+
+Local development only:
+- Run: python manage.py runserver 127.0.0.1:8001
+- URL: http://127.0.0.1:8001/
+
+GitHub repository: https://github.com/JVW-Hue/JVW-XZ
