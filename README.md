@@ -2,8 +2,9 @@
 
 A Django web application for real-time website uptime monitoring.
 
-## 🚀 Local Development Only
+## 🚀 GitHub Pages
 
+**Live URL:** https://jvw-hue.github.io/JVW-XZ/
 **Local URL:** http://127.0.0.1:8001
 
 ## ✨ Features
@@ -20,6 +21,7 @@ A Django web application for real-time website uptime monitoring.
 - Django 4.2.7
 - SQLite Database
 - TailwindCSS
+- GitHub Pages
 - Local Development
 
 ## 📦 Local Setup
@@ -43,6 +45,9 @@ python manage.py runserver 127.0.0.1:8001
 2. Add websites to monitor
 3. Click "Check Now" to test status
 4. View real-time uptime data
+
+## GitHub Pages
+https://jvw-hue.github.io/JVW-XZ/
 
 ## Local Development
 http://127.0.0.1:8001
