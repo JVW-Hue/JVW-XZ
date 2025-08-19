@@ -2,11 +2,6 @@
 
 A Django web application for real-time website uptime monitoring.
 
-## 🚀 GitHub Pages
-
-**Live URL:** https://jvw-hue.github.io/JVW-XZ/
-**Local URL:** http://127.0.0.1:8001
-
 ## ✨ Features
 
 - Real-time website monitoring
@@ -19,25 +14,34 @@ A Django web application for real-time website uptime monitoring.
 ## 🛠️ Tech Stack
 
 - Django 4.2.7
-- SQLite Database
+- PostgreSQL (Production) / SQLite (Local)
 - TailwindCSS
-- GitHub Pages
-- Local Development
+- WhiteNoise for static files
 
-## 📦 Local Setup
+## 🚀 Deploy to Production
+
+### Railway (Recommended)
+1. Fork this repository
+2. Go to [Railway](https://railway.app)
+3. Connect your GitHub account
+4. Deploy from your forked repository
+5. Add environment variables (see .env.example)
+
+### Heroku
+1. Install Heroku CLI
+2. `heroku create your-app-name`
+3. `git push heroku main`
+4. `heroku run python manage.py migrate`
+
+## 📦 Local Development
 
 ```bash
 git clone https://github.com/JVW-Hue/JVW-XZ.git
 cd JVW-XZ
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver 127.0.0.1:8001
+python manage.py runserver
 ```
-
-**Quick Start:**
-- Windows: Double-click `start.bat`
-- Python: `python start_server.py`
-- Manual: `python manage.py runserver 127.0.0.1:8001`
 
 ## 🎯 Usage
 
@@ -45,12 +49,3 @@ python manage.py runserver 127.0.0.1:8001
 2. Add websites to monitor
 3. Click "Check Now" to test status
 4. View real-time uptime data
-
-## GitHub Pages
-https://jvw-hue.github.io/JVW-XZ/
-
-## Local Development
-http://127.0.0.1:8001
-
-## GitHub Repository
-https://github.com/JVW-Hue/JVW-XZ

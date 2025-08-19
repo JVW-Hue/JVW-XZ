@@ -7,11 +7,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['jvw-hue.github.io', 'localhost', '127.0.0.1', '127.0.0.1:8001', 'localhost:8001']
+ALLOWED_HOSTS = ['*']
 
 # CSRF trusted origins for production
 CSRF_TRUSTED_ORIGINS = [
-    'https://jvw-hue.github.io',
+    'https://*.railway.app',
+    'https://*.herokuapp.com',
+    'https://*.pythonanywhere.com',
+    'https://*.vercel.app',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:8001',
     'http://localhost:8000',
