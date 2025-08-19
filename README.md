@@ -30,8 +30,13 @@ git clone https://github.com/JVW-Hue/JVW-XZ.git
 cd JVW-XZ
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver
+python manage.py runserver 127.0.0.1:8001
 ```
+
+**Quick Start:**
+- Windows: Double-click `start.bat`
+- Python: `python start_server.py`
+- Manual: `python manage.py runserver 127.0.0.1:8001`
 
 ## 🎯 Usage
 
@@ -40,5 +45,8 @@ python manage.py runserver
 3. Click "Check Now" to test status
 4. View real-time uptime data
 
-## Live
-https://jvw-xz.onrender.com
+## Local Development
+http://127.0.0.1:8001
+
+## GitHub Repository
+https://github.com/JVW-Hue/JVW-XZ
