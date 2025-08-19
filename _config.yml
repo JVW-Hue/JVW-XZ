@@ -1,0 +1,14 @@
+title: UptimeGuard
+description: Website Monitoring Django App
+baseurl: "/JVW-XZ"
+url: "https://jvw-hue.github.io"
+
+plugins:
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
+
+include:
+  - README.md
