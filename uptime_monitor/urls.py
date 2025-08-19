@@ -11,8 +11,7 @@ def home_view(request):
         return redirect('/dashboard/')
     return render(request, 'landing.html')
 
-def handler404(request, exception):
-    return render(request, '404.html', status=404)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +24,3 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-handler404 = 'uptime_monitor.urls.handler404'
