@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Website
+from django.http import JsonResponse
+from .models import Website, UptimeCheck
+from .tasks import check_website_status
 
 @login_required
 def dashboard(request):
     websites = Website.objects.filter(user=request.user)
+    
+    # Check all websites status
+    for website in websites:
+        check_website_status(website)
+    
     return render(request, 'monitoring/dashboard.html', {
         'user': request.user,
         'websites': websites
@@ -41,9 +48,25 @@ def add_website(request):
 def website_detail(request, website_id):
     try:
         website = Website.objects.get(id=website_id, user=request.user)
+        recent_checks = website.uptime_checks.all()[:10]
         return render(request, 'monitoring/website_detail.html', {
-            'website': website
+            'website': website,
+            'recent_checks': recent_checks
         })
     except Website.DoesNotExist:
         messages.error(request, 'Website not found')
         return redirect('dashboard')
+
+@login_required
+def check_website(request, website_id):
+    try:
+        website = Website.objects.get(id=website_id, user=request.user)
+        result = check_website_status(website)
+        return JsonResponse({
+            'success': True,
+            'is_online': result['is_online'],
+            'response_time': result['response_time'],
+            'status_code': result['status_code']
+        })
+    except Website.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Website not found'})
