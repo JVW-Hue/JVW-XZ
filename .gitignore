@@ -58,3 +58,8 @@ static/
 
 # Backup files
 backup/
+
+# GitHub Pages
+docs/
+index.html
+.nojekyll
